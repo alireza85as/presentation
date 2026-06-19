@@ -1,0 +1,377 @@
+/* Zen Editor Styles - Ultra Minimal Mobile First */
+
+:root {
+    --primary: #2563eb;
+    --primary-bg: #eff6ff;
+    --text: #0f172a;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --surface: #ffffff;
+    --bg: #f8fafc;
+    --danger: #ef4444;
+    
+    --nav-height: 60px;
+    --header-height: 50px;
+    --radius: 12px;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Vazirmatn', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    height: 100dvh;
+    overflow: hidden;
+    user-select: none; /* App feel */
+}
+
+/* Layout */
+#app {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.zen-header {
+    height: var(--header-height);
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+    flex-shrink: 0;
+}
+
+.zen-brand {
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin: 0;
+    color: var(--primary);
+}
+
+.save-badge {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    background: var(--bg);
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
+.zen-main {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    background: var(--bg);
+}
+
+/* Tabs */
+.tab-pane {
+    position: absolute;
+    inset: 0;
+    overflow-y: auto;
+    padding-bottom: 80px; /* Space for content above nav */
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(10px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    background: var(--bg);
+}
+
+.tab-pane.active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(0);
+    z-index: 10;
+}
+
+/* Containers */
+.zen-container {
+    padding: 1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.center-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100%;
+    gap: 2rem;
+}
+
+/* Forms */
+.zen-label {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.zen-input-title {
+    width: 100%;
+    font-size: 1.5rem;
+    font-weight: 800;
+    border: none;
+    background: transparent;
+    padding: 0.5rem 0;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid transparent;
+    border-radius: 0;
+}
+.zen-input-title:focus { outline:none; border-bottom-color: var(--primary); }
+
+.zen-input, .zen-textarea, .zen-select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-family: inherit;
+    font-size: 1rem;
+    background: var(--surface);
+    margin-bottom: 1rem;
+}
+
+.zen-textarea {
+    min-height: 200px;
+    resize: none;
+    line-height: 1.6;
+}
+
+/* Section Cards */
+.sections-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.section-card {
+    background: var(--surface);
+    padding: 1rem;
+    padding-right: 3.6rem; /* Space for drag handle */
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: transform 0.1s;
+    position: relative;
+    overflow: hidden;
+}
+
+.section-card:active { transform: scale(0.98); }
+
+.card-title { font-weight: 700; margin: 0 0 0.25rem 0; font-size: 1rem; }
+.card-preview { font-size: 0.85rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.card-img-indicator {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--primary);
+}
+
+.card-img-indicator.missing {
+    background: #ccc;
+    border: 2px solid #999;
+}
+
+.conclusion-section {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 2px dashed var(--border);
+}
+
+.drag-handle {
+    position: absolute;
+    top: 50%;
+    right: 0.75rem;
+    transform: translateY(-50%);
+    cursor: grab;
+    color: #666;
+    padding: 0.5rem;
+    opacity: 0.7;
+    transition: all 0.2s;
+    background: rgba(150, 150, 150, 0.1);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.drag-handle:active {
+    cursor: grabbing;
+    background: rgba(150, 150, 150, 0.2);
+}
+
+.drag-handle:hover {
+    opacity: 1;
+    background: rgba(150, 150, 150, 0.15);
+}
+
+.sortable-ghost {
+    opacity: 0.4;
+    background: var(--primary);
+}
+
+.sortable-drag {
+    opacity: 0.8;
+}
+
+.zen-btn-ghost {
+    background: transparent;
+    border: 2px dashed var(--border);
+    color: var(--text-muted);
+    width: 100%;
+    padding: 1rem;
+    border-radius: var(--radius);
+    margin-top: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* Bottom Nav */
+.zen-bottom-nav {
+    height: var(--nav-height);
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-around;
+    padding-bottom: env(safe-area-inset-bottom);
+    position: relative;
+    z-index: 50;
+    flex-shrink: 0;
+}
+
+.nav-item {
+    flex: 1;
+    background: transparent;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    gap: 4px;
+    font-size: 0.7rem;
+    cursor: pointer;
+}
+
+.nav-item.active { color: var(--primary); }
+
+/* Modals */
+.zen-modal {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.2, 0, 0.2, 1);
+}
+
+.zen-modal.open { transform: translateY(0); }
+
+.modal-header {
+    height: var(--header-height);
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+    flex-shrink: 0;
+}
+
+.modal-body {
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 2rem;
+}
+
+/* Buttons */
+.btn-icon, .btn-text-primary, .btn-text {
+    background: transparent;
+    border: none;
+    font-family: inherit;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+.btn-text-primary { color: var(--primary); font-weight: 700; }
+.zen-btn-danger { width: 100%; padding: 1rem; border: none; background: #fee2e2; color: var(--danger); border-radius: var(--radius); font-weight: 700; }
+
+.zen-btn-primary {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 1rem;
+    border-radius: var(--radius);
+    font-weight: 700;
+    font-size: 1rem;
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
+}
+
+.full-width { width: 100%; }
+
+/* Gallery */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.gallery-thumb {
+    aspect-ratio: 1;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #ddd;
+    position: relative;
+    border: 1px solid var(--border);
+}
+.gallery-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.btn-del-img { position: absolute; top: 2px; right: 2px; width: 20px; height: 20px; background: rgba(0,0,0,0.5); color: #fff; border:none; border-radius: 50%; display:flex; align-items:center; justify-content:center;}
+
+.upload-box {
+    border: 2px dashed var(--border);
+    padding: 1.5rem;
+    text-align: center;
+    border-radius: var(--radius);
+    color: var(--primary);
+    background: var(--primary-bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Image Selector in Modal */
+.image-selector-row {
+    height: 100px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+}
+.img-preview-box img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset:0; }
+.mt-4 { margin-top: 2rem; }
+
+/* Finish Tab */
+.finish-card { width: 100%; max-width: 400px; text-align: center; }
+.download-links { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 1rem; width: 100%; }
+.download-btn { display: block; padding: 0.8rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); text-decoration: none; color: var(--text); font-weight: 600; }
+
+.preview-box { width: 100%; height: 300px; background: #eee; border-radius: var(--radius); overflow: hidden; position: relative; display: flex; flex-direction: column;}
+.preview-box iframe { flex:1; border:none; }

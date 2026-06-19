@@ -1,0 +1,47 @@
+{% extends 'generator/base.html' %}
+{% load static %}
+
+{% block title %}Generating... - Presentation Generator{% endblock %}
+
+{% block content %}
+<div class="generating-wrapper">
+    <div class="loader-container">
+        <div class="loader">
+            <div class="loader-ring"></div>
+            <div class="loader-ring"></div>
+            <div class="loader-ring"></div>
+        </div>
+        
+        <h2 class="generating-title">Creating Your Presentation</h2>
+        <p class="generating-text">Please wait while we generate your presentation...</p>
+        
+        <div class="progress-steps">
+            <div class="step active">
+                <div class="step-icon">✓</div>
+                <p class="step-text">Analyzing topic</p>
+            </div>
+            <div class="step">
+                <div class="step-icon">2</div>
+                <p class="step-text">Writing content</p>
+            </div>
+            <div class="step">
+                <div class="step-icon">3</div>
+                <p class="step-text">Finding images</p>
+            </div>
+            <div class="step">
+                <div class="step-icon">4</div>
+                <p class="step-text">Creating PDF</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Auto-refresh to check generation status every 2 seconds
+setTimeout(function() {
+    location.reload();
+}, 2000);
+</script>
+{% endblock %}

@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تایید ایمیل | PresentAI</title>
+    <link rel="stylesheet" href="{% static 'generator/css/styles.css' %}">
+    <style>
+        .code-inputs {
+            display: flex;
+            gap: 0.5rem;
+            direction: ltr; /* Inputs should be LTR for numbers */
+            justify-content: center;
+            margin: 2rem 0;
+        }
+        .code-input {
+            width: 48px;
+            height: 48px;
+            text-align: center;
+            font-size: 1.25rem;
+            font-weight: 700;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            background-color: var(--bg-surface);
+            color: var(--text-primary);
+        }
+        .code-input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-wrapper">
+        <div class="auth-card card text-center">
+            <div class="auth-header">
+                <h1 class="auth-title">تایید ایمیل</h1>
+                <p class="auth-subtitle">کد ۶ رقمی ارسال شده به {{ email }} را وارد کنید</p>
+            </div>
+            
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="code-inputs">
+                    <input type="text" name="code_1" class="code-input" maxlength="1" required>
+                    <input type="text" name="code_2" class="code-input" maxlength="1" required>
+                    <input type="text" name="code_3" class="code-input" maxlength="1" required>
+                    <input type="text" name="code_4" class="code-input" maxlength="1" required>
+                    <input type="text" name="code_5" class="code-input" maxlength="1" required>
+                    <input type="text" name="code_6" class="code-input" maxlength="1" required>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-block">تایید ایمیل</button>
+            </form>
+            
+            <div class="mt-4">
+                <p class="text-sm text-secondary">
+                    کدی دریافت نکردید؟ 
+                    <a href="#" class="text-primary">ارسال مجدد</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="{% static 'generator/js/theme.js' %}"></script>
+    <script src="{% static 'generator/js/verify.js' %}"></script>
+</body>
+</html>

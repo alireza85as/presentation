@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تایید موفق | PresentAI</title>
+    <link rel="stylesheet" href="{% static 'generator/css/styles.css' %}">
+</head>
+<body>
+    <div class="auth-wrapper">
+        <div class="auth-card card text-center">
+            <div style="color: var(--success); margin-bottom: 1rem;">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+            </div>
+            
+            <h1 class="auth-title">ایمیل تایید شد!</h1>
+            <p class="auth-subtitle mb-4">حساب کاربری شما با موفقیت فعال شد.</p>
+            
+            <a href="{% url 'dashboard' %}" class="btn btn-primary btn-block">
+                رفتن به داشبورد
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 5 12 12 19"></polyline>
+                </svg>
+            </a>
+        </div>
+    </div>
+    
+    <script src="{% static 'generator/js/theme.js' %}"></script>
+</body>
+</html>

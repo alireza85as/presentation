@@ -1,0 +1,398 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>داشبورد | PresentAI</title>
+    <link rel="stylesheet" href="{% static 'generator/css/styles.css' %}" />
+    <link rel="stylesheet" href="{% static 'generator/css/dashboard.css' %}" />
+  </head>
+  <body>
+    <div class="dashboard-container">
+      <!-- Mobile Overlay -->
+      <div class="mobile-overlay" id="mobileOverlay"></div>
+
+      <!-- Sidebar -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+          <a href="{% url 'index' %}" class="sidebar-logo">
+            <svg
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+              <line x1="8" y1="21" x2="16" y2="21"></line>
+              <line x1="12" y1="17" x2="12" y2="21"></line>
+            </svg>
+            <span>PresentAI</span>
+          </a>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a href="#" class="nav-item active" onclick="showSection('dashboard-home'); return false;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+            <span>داشبورد</span>
+          </a>
+          <a href="#" class="nav-item" onclick="showSection('create-pdf'); return false;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>
+            <span>ساخت PDF</span>
+          </a>
+          <a href="#" class="nav-item" onclick="showSection('create-ppt'); return false;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+            <span>ساخت پاورپوینت</span>
+          </a>
+          <a href="#" class="nav-item" onclick="showSection('saved-documents'); return false;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+            <span>آرشیو اسناد</span>
+          </a>
+          <a href="{% url 'settings' %}" class="nav-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            <span>تنظیمات</span>
+          </a>
+        </nav>
+
+        <div class="sidebar-footer">
+          <a
+            href="{% url 'logout' %}"
+            class="nav-item"
+            style="color: var(--danger)"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+              <polyline points="16 17 21 12 16 7"></polyline>
+              <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+            <span>خروج از حساب</span>
+          </a>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- Header -->
+        <header class="dashboard-header">
+          <div class="header-title">
+            <div class="mobile-header-top">
+                <button id="mobileMenuBtn" class="btn btn-ghost mobile-only">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                </button>
+                <h1>سلام، {{ user.first_name|default:"کاربر عزیز" }} 👋</h1>
+            </div>
+            <p>به پنل کاربری خوش آمدید.</p>
+          </div>
+
+          <div class="header-actions">
+            <button
+              id="themeToggle"
+              class="btn btn-outline"
+              style="
+                border-radius: 50%;
+                width: 40px;
+                height: 40px;
+                padding: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
+                ></path>
+              </svg>
+            </button>
+            <div class="user-profile">
+              <div class="avatar">{{ user.first_name|first|default:"U" }}</div>
+              <span style="font-weight: 600">{{ user.email }}</span>
+            </div>
+          </div>
+        </header>
+
+        <!-- Dashboard Home Section -->
+        <div id="dashboard-home" class="dashboard-section">
+            <!-- Quick Actions Grid -->
+            <div class="actions-grid">
+              <a href="#" class="action-card" onclick="showSection('create-pdf'); return false;">
+                <div class="card-icon">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>
+                </div>
+                <div class="card-content">
+                  <h3>ساخت PDF جدید</h3>
+                  <p>تولید مقاله و تبدیل آن به فایل PDF با تصاویر مرتبط و چیدمان حرفه‌ای.</p>
+                </div>
+                <div class="card-arrow">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 5 12 12 19"></polyline></svg>
+                </div>
+              </a>
+
+              <a href="#" class="action-card" onclick="showSection('create-ppt'); return false;">
+                <div class="card-icon">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+                </div>
+                <div class="card-content">
+                  <h3>ساخت پاورپوینت</h3>
+                  <p>طراحی اسلایدهای جذاب و حرفه‌ای برای ارائه شما با هوش مصنوعی.</p>
+                </div>
+                <div class="card-arrow">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 5 12 12 19"></polyline></svg>
+                </div>
+              </a>
+            </div>
+
+            <!-- Recent Documents -->
+            <section class="recent-section">
+              <div class="section-header">
+                <h2 class="section-title">آخرین فعالیت‌ها</h2>
+                <a href="#" class="btn btn-outline btn-sm" onclick="showSection('saved-documents'); return false;">مشاهده همه</a>
+              </div>
+
+              <div class="documents-list">
+                {% if recent_docs %} {% for doc in recent_docs %}
+                <div class="doc-item">
+                  <div class="doc-icon">
+                    {% if doc.presentation_type == 'pdf' %}
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                    {% else %}
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+                    {% endif %}
+                  </div>
+                  <div class="doc-info" style="margin-right: 1.5rem">
+                    <div class="doc-title">{{ doc.topic }}</div>
+                    <div class="doc-meta">
+                      <span>{{ doc.created_at|date:"Y/m/d H:i" }}</span>
+                      <span class="doc-status status-{{ doc.status }}">
+                        {% if doc.status == 'completed' %}تکمیل شده
+                        {% elif doc.status == 'processing' %}در حال پردازش
+                        {% elif doc.status == 'pending' %}در انتظار
+                        {% else %}خطا{% endif %}
+                      </span>
+                    </div>
+                  </div>
+                  <div class="doc-actions">
+                    {% if doc.status == 'completed' %}
+                      {% if doc.pdf_file %}
+                      <a href="{% url 'edit_presentation' doc.pk %}" class="action-btn btn-edit">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                        ویرایش
+                      </a>
+                      <a href="{% url 'download_pdf' doc.pk %}" class="action-btn btn-download">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        دانلود PDF
+                      </a>
+                      {% endif %}
+                      {% if doc.pptx_file %}
+                      <a href="{% url 'download_pptx' doc.pk %}" class="action-btn btn-download">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        دانلود PPT
+                      </a>
+                      {% endif %}
+                    {% endif %}
+                  </div>
+                </div>
+                {% endfor %} {% else %}
+                <div class="empty-state">
+                  <div class="empty-icon">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>
+                  </div>
+                  <h3>هنوز سندی نساخته‌اید</h3>
+                  <p>برای شروع روی یکی از گزینه‌های بالا کلیک کنید.</p>
+                </div>
+                {% endif %}
+              </div>
+            </section>
+        </div>
+
+        <!-- Create PDF Section -->
+        <div id="create-pdf" class="dashboard-section" style="display: none;">
+            <div class="card" style="max-width: 600px; margin: 0 auto;">
+                <h1 class="page-title text-center">ساخت فایل PDF</h1>
+                <p class="text-center text-secondary mb-4">موضوع خود را وارد کنید تا هوش مصنوعی برای شما مقاله و PDF بسازد.</p>
+                
+                <form action="{% url 'create_pdf' %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="topic-pdf" class="form-label">موضوع یا متن</label>
+                        <textarea id="topic-pdf" name="topic" class="form-input" rows="4" required placeholder="مثال: تاریخچه هوش مصنوعی..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" style="display: block; margin-bottom: 0.75rem;">انتخاب قالب</label>
+                        <div class="template-options">
+                            <label class="template-option">
+                                <input type="radio" name="template" value="classic" checked>
+                                <div class="template-card t-classic">
+                                    <div class="template-preview">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line></svg>
+                                    </div>
+                                    <span class="template-name">کلاسیک</span>
+                                    <span class="template-desc">رسمی و اداری</span>
+                                </div>
+                            </label>
+                            
+                            <label class="template-option">
+                                <input type="radio" name="template" value="modern">
+                                <div class="template-card t-modern">
+                                    <div class="template-preview">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
+                                    </div>
+                                    <span class="template-name">مدرن</span>
+                                    <span class="template-desc">شیک و مینیمال</span>
+                                </div>
+                            </label>
+                            
+                            <label class="template-option">
+                                <input type="radio" name="template" value="creative">
+                                <div class="template-card t-creative">
+                                    <div class="template-preview">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg>
+                                    </div>
+                                    <span class="template-name">خلاقانه</span>
+                                    <span class="template-desc">رنگی و جذاب</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>
+                        ساخت PDF
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Create PPT Section -->
+        <div id="create-ppt" class="dashboard-section" style="display: none;">
+            <div class="card" style="max-width: 600px; margin: 0 auto;">
+                <h1 class="page-title text-center">ساخت پاورپوینت</h1>
+                <p class="text-center text-secondary mb-4">موضوع خود را وارد کنید تا هوش مصنوعی برای شما اسلایدهای حرفه‌ای بسازد.</p>
+                
+                <form action="{% url 'create_ppt' %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="topic-ppt" class="form-label">موضوع ارائه</label>
+                        <textarea id="topic-ppt" name="topic" class="form-input" rows="5" required placeholder="مثال: تاثیر تکنولوژی بر آموزش..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-block" style="background-color: #f59e0b; border-color: #f59e0b;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 17H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-1"></path><polygon points="12 15 17 21 7 21 12 15"></polygon></svg>
+                        ساخت پاورپوینت
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Saved Documents Section -->
+        <div id="saved-documents" class="dashboard-section" style="display: none;">
+            <div class="page-header">
+                <h1 class="page-title">اسناد ذخیره شده</h1>
+            </div>
+
+            <div class="card">
+                {% if all_docs %}
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>عنوان</th>
+                                <th>تاریخ</th>
+                                <th>نوع فایل</th>
+                                <th>عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for doc in all_docs %}
+                            <tr>
+                                <td>{{ doc.topic|truncatechars:15 }}</td>
+                                <td>{{ doc.created_at|date:"Y/m/d H:i" }}</td>
+                                <td>
+                                    {% if doc.pdf_file %}PDF{% endif %}
+                                    {% if doc.pdf_file and doc.pptx_file %} / {% endif %}
+                                    {% if doc.pptx_file %}PPTX{% endif %}
+                                </td>
+                                <td>
+                                    {% if doc.pdf_file %}
+                                    <span style="margin: 0 0.5rem;">|</span>
+                                    <a href="{% url 'download_pdf' doc.pk %}" class="text-primary text-sm">دانلود PDF</a>
+                                    {% endif %}
+                                    {% if doc.pptx_file %}
+                                    <span style="margin: 0 0.5rem;">|</span>
+                                    <a href="{% url 'download_pptx' doc.pk %}" class="text-primary text-sm">دانلود PPT</a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-center text-secondary" style="padding: 2rem;">هیچ سندی یافت نشد.</p>
+                {% endif %}
+            </div>
+        </div>
+      </main>
+    </div>
+    <!-- Logout Modal -->
+    <div class="logout-modal-overlay" id="logoutModal">
+        <div class="logout-modal">
+            <div class="logout-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+            </div>
+            <h3 class="logout-title">خروج از حساب کاربری</h3>
+            <p class="logout-desc">آیا مطمئن هستید که می‌خواهید از حساب کاربری خود خارج شوید؟</p>
+            <div class="logout-actions">
+                <button class="btn-modal btn-cancel" onclick="closeLogoutModal()">انصراف</button>
+                <button class="btn-modal btn-logout" onclick="confirmLogout()">خروج</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'generator/js/theme.js' %}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const section = urlParams.get('section');
+            if (section) {
+                showSection(section);
+            }
+
+            // Logout Modal Logic
+            const logoutLink = document.querySelector('a[href="{% url "logout" %}"]');
+            if (logoutLink) {
+                logoutLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    document.getElementById('logoutModal').classList.add('active');
+                });
+            }
+        });
+
+        function closeLogoutModal() {
+            document.getElementById('logoutModal').classList.remove('active');
+        }
+
+        function confirmLogout() {
+            window.location.href = "{% url 'logout' %}";
+        }
+    </script>
+  </body>
+</html>

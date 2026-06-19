@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ورود | PresentAI</title>
+    <link rel="stylesheet" href="{% static 'generator/css/styles.css' %}">
+</head>
+<body>
+    <div class="auth-wrapper">
+        <div class="auth-card card">
+            <div class="auth-header">
+                <h1 class="auth-title">ورود به حساب</h1>
+                <p class="auth-subtitle">خوش آمدید! لطفاً وارد شوید</p>
+            </div>
+            
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="email" class="form-label">ایمیل</label>
+                    <input type="email" id="email" name="email" class="form-input" required placeholder="example@email.com">
+                </div>
+                
+                <div class="form-group">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                        <label for="password" class="form-label" style="margin-bottom: 0;">رمز عبور</label>
+                        <a href="#" class="text-sm text-primary">فراموشی رمز عبور؟</a>
+                    </div>
+                    <input type="password" id="password" name="password" class="form-input" required placeholder="رمز عبور خود را وارد کنید">
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-block">ورود</button>
+            </form>
+            
+            <div class="text-center mt-4">
+                <p class="text-sm">
+                    حساب کاربری ندارید؟ 
+                    <a href="{% url 'register' %}" class="text-primary">ثبت‌نام کنید</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="{% static 'generator/js/theme.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,168 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>ویرایشگر | PresentAI</title>
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="{% static 'generator/css/editor.css' %}">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+</head>
+<body>
+
+    <!-- App Container -->
+    <div id="app">
+        
+        <!-- Header -->
+        <header class="zen-header">
+            <h1 class="zen-brand">ویرایشگر</h1>
+            <div id="save-indicator" class="save-badge">ذخیره شد</div>
+        </header>
+
+        <!-- Main Viewport -->
+        <main id="main-viewport" class="zen-main">
+            
+            <!-- TAB 1: CONTENT (Sections List) -->
+            <div id="tab-content" class="tab-pane active">
+                <div class="zen-container">
+                    <label class="zen-label">موضوع ارائه</label>
+                    <input type="text" id="doc-topic" class="zen-input-title" value="{{ presentation.topic }}">
+                    
+                    <div id="sections-list" class="sections-stack">
+                        <!-- Sections injected here -->
+                    </div>
+
+                    <button id="btn-add-section" class="zen-btn-ghost">
+                        + افزودن بخش جدید
+                    </button>
+                    
+                    <div class="conclusion-section">
+                        <label class="zen-label">نتیجه‌گیری</label>
+                        <textarea id="conclusion-input" class="zen-textarea" placeholder="متن نتیجه‌گیری را وارد کنید..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: IMAGES (Gallery) -->
+            <div id="tab-images" class="tab-pane">
+                <div class="zen-container">
+                    <div class="upload-box" id="upload-trigger">
+                        <span class="icon">+</span>
+                        <span>آپلود تصویر جدید</span>
+                        <input type="file" id="file-input" hidden multiple accept="image/*">
+                    </div>
+                    
+                    <div id="gallery-grid" class="gallery-grid">
+                        <!-- Images injected here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 3: FINISH (Preview & Save) -->
+            <div id="tab-finish" class="tab-pane">
+                <div class="zen-container center-content">
+                    
+                    <div class="finish-card">
+                        <h2>آماده‌سازی نهایی</h2>
+                        <p>قالب مورد نظر را انتخاب کنید و فایل نهایی را دریافت کنید.</p>
+                        
+                        <label class="zen-label">قالب طراحی</label>
+                        <select id="template-select" class="zen-select">
+                            <!-- Templates -->
+                        </select>
+
+                        <button id="btn-regenerate" class="zen-btn-primary full-width big-btn">
+                            ذخیره و بازسازی تمام فایل‌ها
+                        </button>
+
+                        <div class="download-links" id="download-links">
+                            <!-- Links appear here -->
+                        </div>
+                    </div>
+
+                    <div class="preview-box">
+                        <iframe id="mini-preview" src=""></iframe>
+                        <button id="btn-fullscreen-preview" class="zen-btn-text">نمایش تمام صفحه</button>
+                    </div>
+
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="zen-bottom-nav">
+            <button class="nav-item active" data-tab="content">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                <span>محتوا</span>
+            </button>
+            <button class="nav-item" data-tab="images">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                <span>تصاویر</span>
+            </button>
+            <button class="nav-item" data-tab="finish">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                <span>خروجی</span>
+            </button>
+        </nav>
+
+        <!-- Editor Modal (Full Screen) -->
+        <div id="editor-modal" class="zen-modal">
+            <header class="modal-header">
+                <button id="btn-close-modal" class="btn-icon">بازگشت</button>
+                <span id="modal-title">ویرایش بخش</span>
+                <button id="btn-save-modal" class="btn-text-primary">تایید</button>
+            </header>
+            <div class="modal-body">
+                <div class="zen-container">
+                    <label class="zen-label">عنوان بخش</label>
+                    <input type="text" id="modal-input-title" class="zen-input">
+                    
+                    <label class="zen-label">تصویر بخش</label>
+                    <div id="modal-image-selector" class="image-selector-row">
+                        <!-- Click to select image -->
+                        <div class="img-preview-box"></div>
+                        <span class="img-hint">برای انتخاب تصویر ضربه بزنید</span>
+                    </div>
+
+                    <label class="zen-label">متن محتوا</label>
+                    <textarea id="modal-input-content" class="zen-textarea"></textarea>
+                    
+                    <button id="btn-delete-section" class="zen-btn-danger mt-4">حذف این بخش</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Image Picker Modal -->
+        <div id="picker-modal" class="zen-modal">
+            <header class="modal-header">
+                <button id="btn-close-picker" class="btn-icon">بستن</button>
+                <span>انتخاب تصویر</span>
+            </header>
+            <div class="modal-body">
+                <div id="picker-grid" class="gallery-grid"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Config -->
+    <script>
+        window.APP_CONFIG = {
+            csrfToken: "{{ csrf_token }}",
+            presentationId: "{{ presentation.pk }}",
+            urls: {
+                content: "{% url 'api_get_content' presentation.pk %}",
+                save: "{% url 'api_save_content' presentation.pk %}",
+                regenerate: "{% url 'api_regenerate' presentation.pk %}",
+                upload: "{% url 'api_upload_image' presentation.pk %}",
+                deleteImage: "{% url 'api_delete_image' presentation.pk %}",
+                dashboard: "{% url 'dashboard' %}"
+            }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <script src="{% static 'generator/js/editor.js' %}"></script>
+</body>
+</html>

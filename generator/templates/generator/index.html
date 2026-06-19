@@ -1,0 +1,159 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PresentAI | ساخت ارائه حرفه‌ای با هوش مصنوعی</title>
+    <meta name="description" content="ساخت پاورپوینت و PDF حرفه‌ای با هوش مصنوعی تنها با یک کلیک. مناسب برای دانشجویان و اساتید.">
+    <link rel="stylesheet" href="{% static 'generator/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'generator/css/landing.css' %}">
+    <style>
+        /* Override landing specific styles for RTL if needed */
+        .hero-content { text-align: center; }
+        .nav-links { gap: 1.5rem; }
+        .feature-icon { margin-left: 0; margin-bottom: 1rem; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="/" class="logo">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-primary">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                        <line x1="8" y1="21" x2="16" y2="21"></line>
+                        <line x1="12" y1="17" x2="12" y2="21"></line>
+                    </svg>
+                    <span>PresentAI</span>
+                </a>
+                <div class="nav-links">
+                    <a href="#features" class="nav-link">ویژگی‌ها</a>
+                    <a href="#how-it-works" class="nav-link">چگونه کار می‌کند</a>
+                    <button id="themeToggle" class="theme-toggle" aria-label="تغییر تم"></button>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'dashboard' %}" class="btn btn-primary">داشبورد</a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="btn btn-outline">ورود</a>
+                        <a href="{% url 'register' %}" class="btn btn-primary">شروع رایگان</a>
+                    {% endif %}
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg-anim">
+            <div class="blob blob-1"></div>
+            <div class="blob blob-2"></div>
+        </div>
+        <div class="container hero-content">
+            <h1>تبدیل ایده به ارائه حرفه‌ای در چند ثانیه</h1>
+            <p class="subtitle">دیگر نگران ساخت پاورپوینت نباشید. هوش مصنوعی ما متن شما را به اسلایدهای زیبا و ساختارمند تبدیل می‌کند.</p>
+            <div style="display: flex; gap: 1rem; justify-content: center; margin-bottom: 3rem;">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'create_pdf' %}" class="btn btn-primary" style="padding: 1rem 2rem; font-size: 1.1rem;">ساخت ارائه جدید</a>
+                {% else %}
+                    <a href="{% url 'register' %}" class="btn btn-primary" style="padding: 1rem 2rem; font-size: 1.1rem;">ساخت اولین ارائه</a>
+                {% endif %}
+                <a href="#how-it-works" class="btn btn-outline">مشاهده ویدیو</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="section">
+        <div class="container">
+            <h2 class="text-center">ویژگی‌های متمایز</h2>
+            <p class="subtitle text-center">هر آنچه برای یک ارائه عالی نیاز دارید</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                        </svg>
+                    </div>
+                    <h3>خروجی PPTX و PDF</h3>
+                    <p>دانلود فایل‌ها به صورت پاورپوینت قابل ویرایش یا PDF آماده ارائه.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            <circle cx="8.5" cy="8.5" r="1.5"/>
+                            <polyline points="21 15 16 10 5 21"/>
+                        </svg>
+                    </div>
+                    <h3>جستجوی هوشمند تصاویر</h3>
+                    <p>یافتن خودکار تصاویر مرتبط و باکیفیت برای اسلایدها.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                        </svg>
+                    </div>
+                    <h3>فرمت‌بندی آکادمیک</h3>
+                    <p>تولید محتوای ساختاریافته مناسب برای مقالات، پایان‌نامه‌ها و پروژه‌های درسی.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Workflow Section -->
+    <section id="how-it-works" class="section" style="background-color: var(--bg-surface);">
+        <div class="container">
+            <h2 class="text-center">چگونه کار می‌کند؟</h2>
+            <div class="workflow-steps">
+                <div class="step">
+                    <div class="step-number">۱</div>
+                    <h3>وارد کردن موضوع</h3>
+                    <p>موضوع ارائه یا متن خود را وارد کنید.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">۲</div>
+                    <h3>پردازش هوشمند</h3>
+                    <p>هوش مصنوعی محتوا را ساختاردهی و طراحی می‌کند.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">۳</div>
+                    <h3>دانلود فایل</h3>
+                    <p>فایل نهایی را دانلود کرده و ارائه دهید.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="logo">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-primary">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                        <line x1="8" y1="21" x2="16" y2="21"></line>
+                        <line x1="12" y1="17" x2="12" y2="21"></line>
+                    </svg>
+                    <span style="font-size: 1.2rem;">PresentAI</span>
+                </div>
+                <div style="display: flex; gap: 1.5rem;">
+                    <a href="#" style="color: var(--text-secondary);">حریم خصوصی</a>
+                    <a href="#" style="color: var(--text-secondary);">قوانین</a>
+                    <a href="mailto:contact@presentai.com" style="color: var(--text-secondary);">تماس با ما</a>
+                </div>
+            </div>
+            <p class="copyright">© ۱۴۰۴ PresentAI. تمامی حقوق محفوظ است.</p>
+        </div>
+    </footer>
+
+    <script src="{% static 'generator/js/landing.js' %}"></script>
+    <script src="{% static 'generator/js/theme.js' %}"></script>
+</body>
+</html>
